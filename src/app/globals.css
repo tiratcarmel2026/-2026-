@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-blue: #1b4d89;
+  --color-brand-blue-dark: #123a68;
+  --color-brand-orange: #f47b20;
+  --color-brand-green: #3aa935;
+  --font-sans: "Varela Round", "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+  background-color: #f7f8fa;
+  color: #1f2937;
+}
+
+.input {
+  @apply w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-blue;
+}
