@@ -1,7 +1,15 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useMemo, useState, type FormEvent } from "react";
 import { formatHebrewDate } from "@/lib/format";
+import {
+  IconAlertCircle,
+  IconDownload,
+  IconLock,
+  IconLogOut,
+  IconSearch,
+  IconUsers,
+} from "@/lib/icons";
 
 interface AdminAppointment {
   id: string;
@@ -25,6 +33,7 @@ export function AdminClient({ departmentId, departmentName }: Props) {
   const [loginError, setLoginError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [appointments, setAppointments] = useState<AdminAppointment[]>([]);
+  const [search, setSearch] = useState("");
 
   async function handleLogin(e: FormEvent) {
     e.preventDefault();
@@ -93,82 +102,150 @@ export function AdminClient({ departmentId, departmentName }: Props) {
     setPassword("");
   }
 
+  const filtered = useMemo(() => {
+    const q = search.trim();
+    if (!q) return appointments;
+    return appointments.filter((a) =>
+      [a.name, a.phone, a.email, a.code].some((v) => v?.includes(q))
+    );
+  }, [appointments, search]);
+
   if (!loggedIn) {
     return (
-      <form onSubmit={handleLogin} className="max-w-sm space-y-4">
-        <div>
-          <label className="block mb-1 font-medium">סיסמת מחלקה</label>
-          <input
-            required
-            type="password"
-            className="input"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        {loginError && <p className="text-red-600 text-sm">{loginError}</p>}
-        <button
-          type="submit"
-          disabled={loading}
-          className="rounded-lg bg-brand-blue px-5 py-2 text-white font-medium disabled:opacity-50"
-        >
-          {loading ? "מתחבר..." : "כניסה"}
-        </button>
-      </form>
+      <div className="card mx-auto max-w-sm p-6">
+        <span className="mx-auto mb-3 flex size-11 items-center justify-center rounded-full bg-brand-blue-light text-brand-blue">
+          <IconLock className="size-5" />
+        </span>
+        <form onSubmit={handleLogin} className="space-y-4">
+          <div>
+            <label className="label">סיסמת מחלקה</label>
+            <input
+              required
+              type="password"
+              className="input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+            />
+          </div>
+          {loginError && (
+            <p className="flex items-center gap-1.5 text-sm font-medium text-brand-red">
+              <IconAlertCircle className="size-4 shrink-0" />
+              {loginError}
+            </p>
+          )}
+          <button type="submit" disabled={loading} className="btn-secondary w-full">
+            {loading ? "מתחבר..." : "כניסה"}
+          </button>
+        </form>
+      </div>
     );
   }
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
-        <p className="text-gray-600">
-          {appointments.length} תורים מאושרים ל{departmentName}
-        </p>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-2 rounded-xl bg-brand-blue-light px-4 py-2.5 text-brand-blue">
+          <IconUsers className="size-4" />
+          <span className="text-sm font-semibold">
+            {appointments.length} תורים מאושרים ל{departmentName}
+          </span>
+        </div>
         <div className="flex gap-2">
-          <button
-            onClick={handleExportCsv}
-            className="rounded-lg border px-4 py-2 text-sm font-medium"
-          >
+          <button onClick={handleExportCsv} className="btn-outline text-sm">
+            <IconDownload className="size-4" />
             ייצוא ל-CSV
           </button>
-          <button
-            onClick={handleLogout}
-            className="rounded-lg border px-4 py-2 text-sm font-medium"
-          >
+          <button onClick={handleLogout} className="btn-outline text-sm">
+            <IconLogOut className="size-4" />
             התנתקות
           </button>
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
-        <table className="w-full text-sm text-right">
-          <thead className="bg-gray-50">
+      <div className="relative mb-3">
+        <IconSearch className="pointer-events-none absolute right-3.5 top-1/2 size-4 -translate-y-1/2 text-gray-400" />
+        <input
+          className="input pr-10"
+          placeholder="חיפוש לפי שם, טלפון, אימייל או קוד..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden overflow-x-auto rounded-xl border border-gray-200 bg-white sm:block">
+        <table className="w-full text-sm">
+          <thead className="bg-gray-50 text-right text-gray-500">
             <tr>
-              <th className="p-3">תאריך</th>
-              <th className="p-3">שעה</th>
-              <th className="p-3">שם</th>
-              <th className="p-3">טלפון</th>
-              <th className="p-3">אימייל</th>
-              <th className="p-3">סיבה</th>
-              <th className="p-3">קוד</th>
+              <th className="p-3 font-semibold">תאריך</th>
+              <th className="p-3 font-semibold">שעה</th>
+              <th className="p-3 font-semibold">שם</th>
+              <th className="p-3 font-semibold">טלפון</th>
+              <th className="p-3 font-semibold">אימייל</th>
+              <th className="p-3 font-semibold">סיבה</th>
+              <th className="p-3 font-semibold">קוד</th>
             </tr>
           </thead>
           <tbody>
-            {appointments.map((a) => (
-              <tr key={a.id} className="border-t">
-                <td className="p-3">{formatHebrewDate(a.appointment_date)}</td>
-                <td className="p-3">{a.start_time.slice(0, 5)}</td>
+            {filtered.map((a) => (
+              <tr key={a.id} className="border-t border-gray-100 hover:bg-gray-50/60">
+                <td className="p-3 whitespace-nowrap">{formatHebrewDate(a.appointment_date)}</td>
+                <td className="p-3 font-medium">{a.start_time.slice(0, 5)}</td>
                 <td className="p-3">{a.name}</td>
-                <td className="p-3">{a.phone}</td>
+                <td className="p-3 whitespace-nowrap">{a.phone}</td>
                 <td className="p-3">{a.email}</td>
-                <td className="p-3">{a.reason}</td>
-                <td className="p-3 font-mono">{a.code}</td>
+                <td className="p-3 max-w-[16rem] truncate" title={a.reason ?? ""}>
+                  {a.reason}
+                </td>
+                <td className="p-3 font-mono text-brand-blue">{a.code}</td>
               </tr>
             ))}
           </tbody>
         </table>
-        {appointments.length === 0 && (
-          <p className="p-4 text-center text-gray-500">אין תורים מאושרים כרגע.</p>
+        {filtered.length === 0 && (
+          <p className="p-6 text-center text-gray-500">
+            {appointments.length === 0 ? "אין תורים מאושרים כרגע." : "לא נמצאו תוצאות תואמות."}
+          </p>
+        )}
+      </div>
+
+      {/* Mobile cards */}
+      <div className="space-y-3 sm:hidden">
+        {filtered.map((a) => (
+          <div key={a.id} className="card p-4">
+            <div className="mb-2 flex items-center justify-between">
+              <span className="font-semibold text-gray-800">
+                {formatHebrewDate(a.appointment_date)} · {a.start_time.slice(0, 5)}
+              </span>
+              <span className="font-mono text-xs text-brand-blue">{a.code}</span>
+            </div>
+            <dl className="space-y-1 text-sm text-gray-600">
+              <div className="flex gap-1.5">
+                <dt className="shrink-0 text-gray-400">שם:</dt>
+                <dd>{a.name}</dd>
+              </div>
+              <div className="flex gap-1.5">
+                <dt className="shrink-0 text-gray-400">טלפון:</dt>
+                <dd dir="ltr" className="text-right">{a.phone}</dd>
+              </div>
+              <div className="flex gap-1.5">
+                <dt className="shrink-0 text-gray-400">אימייל:</dt>
+                <dd className="truncate">{a.email}</dd>
+              </div>
+              {a.reason && (
+                <div className="flex gap-1.5">
+                  <dt className="shrink-0 text-gray-400">סיבה:</dt>
+                  <dd>{a.reason}</dd>
+                </div>
+              )}
+            </dl>
+          </div>
+        ))}
+        {filtered.length === 0 && (
+          <p className="card p-6 text-center text-gray-500">
+            {appointments.length === 0 ? "אין תורים מאושרים כרגע." : "לא נמצאו תוצאות תואמות."}
+          </p>
         )}
       </div>
     </div>
