@@ -21,3 +21,14 @@ npm-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# pdf_accessibility (Python)
+pdf_accessibility/storage/uploads/*
+pdf_accessibility/storage/outputs/*
+!pdf_accessibility/storage/uploads/.gitkeep
+!pdf_accessibility/storage/outputs/.gitkeep
+pdf_accessibility/__pycache__/
+pdf_accessibility/**/__pycache__/
+pdf_accessibility/.venv/
+pdf_accessibility/venv/
+
