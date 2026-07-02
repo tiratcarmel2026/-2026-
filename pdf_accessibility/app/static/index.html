@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מערכת הנגשת PDF</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>הנגשת קבצי PDF</h1>
+    <p>העלו PDF וקבלו בחזרה גרסה מונגשת (best-effort) + דוח נגישות מפורט.</p>
+  </header>
+
+  <div class="card">
+    <div id="dropzone" class="dropzone">
+      <input type="file" id="fileInput" accept="application/pdf,.pdf">
+      <div>גררו לכאן קובץ PDF, או לחצו לבחירה</div>
+      <div class="filename" id="filename"></div>
+    </div>
+
+    <button class="btn-primary" id="processBtn" disabled>הנגש</button>
+
+    <div class="status hidden" id="status">
+      <div class="spinner"></div>
+      <span>מעבד את הקובץ - זה עשוי לקחת דקה או יותר עבור מסמכים סרוקים...</span>
+    </div>
+
+    <div class="error-box hidden" id="errorBox"></div>
+  </div>
+
+  <div class="card hidden" id="resultCard">
+    <h2>הורדה</h2>
+    <a class="btn-secondary" id="dlPdf" href="#">הורד PDF מונגש</a>
+    <a class="btn-secondary" id="dlReportHtml" href="#" target="_blank">דוח נגישות (HTML)</a>
+    <a class="btn-secondary" id="dlReportPdf" href="#">דוח נגישות (PDF)</a>
+
+    <h2>סטטיסטיקה</h2>
+    <div class="stats-grid" id="statsGrid"></div>
+
+    <h2>מה בוצע אוטומטית</h2>
+    <ul id="actionsList"></ul>
+
+    <h2>דורש בדיקה ידנית</h2>
+    <ul class="manual" id="manualList"></ul>
+
+    <div id="warningsSection" class="hidden">
+      <h2>הערות טכניות</h2>
+      <ul id="warningsList"></ul>
+    </div>
+
+    <div class="disclaimer">
+      <strong>שימו לב:</strong> הפלט של מערכת זו הוא ניסיון אוטומטי להנגשת ה-PDF
+      ואינו מובטח לעמוד בתקן PDF/UA באופן מלא. לפני שימוש רשמי, משפטי או פרסום
+      ציבורי - יש לאמת את הקובץ בכלי ייעודי כגון PAC (PDF Accessibility Checker)
+      ו/או בבדיקה ידנית של אדם המשתמש בקורא מסך.
+    </div>
+  </div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
