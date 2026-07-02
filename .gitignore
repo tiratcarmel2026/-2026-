@@ -32,3 +32,10 @@ pdf_accessibility/**/__pycache__/
 pdf_accessibility/.venv/
 pdf_accessibility/venv/
 
+# transcription_worker (Python)
+transcription_worker/worker/storage/
+transcription_worker/__pycache__/
+transcription_worker/**/__pycache__/
+transcription_worker/.venv/
+transcription_worker/venv/
+

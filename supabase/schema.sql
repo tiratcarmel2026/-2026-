@@ -79,3 +79,49 @@ values
   ('education',          'רישום לגני ילדים וחינוך',    'רחוב הרצל 5, טירת כרמל',    '04-8500555', 'שרה בן דוד', 'education@tirat-carmel.muni.il',          '08:00', '15:00'),
   ('environment',        'שפ"ע - איכות סביבה ותברואה', 'רחוב העצמאות 1, טירת כרמל', '04-8500666', 'משה פרץ',    'environment@tirat-carmel.muni.il',        '08:00', '15:00')
 on conflict (id) do nothing;
+
+-- ---------------------------------------------------------------------------
+-- transcription_jobs - Hebrew audio transcription with speaker diarization.
+-- Uploads land in the `recordings` storage bucket; a separate worker process
+-- (transcription_worker/, run on your own machine/server - not Vercel, ASR +
+-- diarization are too heavy for serverless functions) picks up 'pending' jobs,
+-- transcribes them and writes the result back here.
+-- ---------------------------------------------------------------------------
+create table if not exists transcription_jobs (
+  id                 uuid primary key default gen_random_uuid(),
+  original_filename  text not null,
+  storage_bucket     text not null default 'recordings',
+  storage_path       text not null,
+  status             text not null default 'pending_upload'
+                       check (status in ('pending_upload', 'pending', 'processing', 'done', 'failed')),
+  progress_stage     text,
+  progress_percent   integer not null default 0,
+  error_message      text,
+  duration_seconds   numeric,
+  -- { "segments": [{ "start": 12.3, "end": 18.9, "speaker": "SPEAKER_00", "text": "..." }, ...],
+  --   "speakers": ["SPEAKER_00", "SPEAKER_01"] }
+  transcript         jsonb,
+  -- { "SPEAKER_00": "יוסי כהן", "SPEAKER_01": "דובר 2" } - seeded by the worker's
+  -- best-effort name guess from self-introductions in the transcript, editable
+  -- from the admin screen afterwards.
+  speaker_names      jsonb not null default '{}'::jsonb,
+  claimed_at         timestamptz,
+  created_at         timestamptz not null default now(),
+  updated_at         timestamptz not null default now()
+);
+
+create index if not exists transcription_jobs_status_idx
+  on transcription_jobs (status, created_at);
+
+alter table transcription_jobs enable row level security;
+
+-- ---------------------------------------------------------------------------
+-- Storage bucket for uploaded recordings. Private - only the service role
+-- (server + worker) can read/write; the browser only ever gets short-lived
+-- signed URLs. Files can be large (a 3-4 hour recording is easily 100+ MB),
+-- so make sure Project Settings -> Storage -> "Max file size" is raised
+-- above the default 50 MB.
+-- ---------------------------------------------------------------------------
+insert into storage.buckets (id, name, public)
+values ('recordings', 'recordings', false)
+on conflict (id) do nothing;
