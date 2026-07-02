@@ -3,16 +3,93 @@
 @theme {
   --color-brand-blue: #1b4d89;
   --color-brand-blue-dark: #123a68;
+  --color-brand-blue-light: #eaf1f9;
   --color-brand-orange: #f47b20;
-  --color-brand-green: #3aa935;
-  --font-sans: "Varela Round", "Segoe UI", system-ui, sans-serif;
+  --color-brand-orange-dark: #d9660f;
+  --color-brand-green: #2f9e4f;
+  --color-brand-green-light: #eaf8ee;
+  --color-brand-red: #d64545;
+  --color-ink: #1f2937;
+  --font-sans: var(--font-heebo), "Segoe UI", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: #f7f8fa;
-  color: #1f2937;
+  background-color: #f5f6f9;
+  color: var(--color-ink);
+}
+
+/* Consistent, visible focus ring for keyboard users (accessibility). */
+:focus-visible {
+  outline: 2px solid var(--color-brand-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  right: 1rem;
+  top: -3rem;
+  z-index: 100;
+  background: white;
+  color: var(--color-brand-blue);
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
 }
 
 .input {
-  @apply w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-blue;
+  @apply w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-[15px] text-gray-900 placeholder:text-gray-400 transition focus:outline-none focus:ring-2 focus:ring-brand-blue/40 focus:border-brand-blue;
+}
+
+.input-error {
+  @apply border-brand-red focus:ring-brand-red/30 focus:border-brand-red;
+}
+
+.label {
+  @apply block mb-1.5 text-sm font-semibold text-gray-700;
+}
+
+.card {
+  @apply rounded-2xl border border-gray-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)];
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-[15px] font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 bg-brand-orange text-white shadow-sm hover:bg-brand-orange-dark;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-[15px] font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 bg-brand-blue text-white shadow-sm hover:bg-brand-blue-dark;
+}
+
+.btn-outline {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-[15px] font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 border border-gray-300 bg-white text-gray-700 hover:bg-gray-50;
+}
+
+.badge {
+  @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-toast-in {
+  animation: toast-in 0.18s ease-out;
 }

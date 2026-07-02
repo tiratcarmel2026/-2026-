@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { formatHebrewDate } from "@/lib/format";
+import { IconAlertCircle, IconCheckCircle } from "@/lib/icons";
 
 interface CancelledInfo {
   departmentName: string;
@@ -45,9 +46,12 @@ export function CancelClient() {
 
   if (result) {
     return (
-      <div className="rounded-xl border border-brand-green bg-green-50 p-6 text-center">
-        <h2 className="text-lg font-bold text-brand-green mb-2">התור בוטל בהצלחה</h2>
-        <p>
+      <div className="text-center">
+        <span className="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-brand-green-light text-brand-green">
+          <IconCheckCircle className="size-6" />
+        </span>
+        <h2 className="mb-1 text-lg font-bold text-gray-800">התור בוטל בהצלחה</h2>
+        <p className="text-gray-600">
           {result.departmentName} · {formatHebrewDate(result.date)} בשעה {result.time}
         </p>
       </div>
@@ -57,7 +61,7 @@ export function CancelClient() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block mb-1 font-medium">טלפון</label>
+        <label className="label">טלפון</label>
         <input
           required
           type="tel"
@@ -65,10 +69,11 @@ export function CancelClient() {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="050-1234567"
+          autoComplete="tel"
         />
       </div>
       <div>
-        <label className="block mb-1 font-medium">קוד ביטול</label>
+        <label className="label">קוד ביטול</label>
         <input
           required
           className="input"
@@ -77,13 +82,14 @@ export function CancelClient() {
         />
       </div>
 
-      {error && <p className="text-red-600 text-sm">{error}</p>}
+      {error && (
+        <p className="flex items-center gap-1.5 text-sm font-medium text-brand-red">
+          <IconAlertCircle className="size-4 shrink-0" />
+          {error}
+        </p>
+      )}
 
-      <button
-        type="submit"
-        disabled={submitting}
-        className="rounded-lg bg-brand-blue px-5 py-2 text-white font-medium disabled:opacity-50"
-      >
+      <button type="submit" disabled={submitting} className="btn-secondary w-full">
         {submitting ? "מבטל..." : "ביטול תור"}
       </button>
     </form>
