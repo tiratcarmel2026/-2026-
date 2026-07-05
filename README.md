@@ -15,6 +15,10 @@ Supabase (בסיס נתונים) + Resend (שליחת מיילים) + Vercel (א
 - **ביטול תור** לפי מספר טלפון + קוד ביטול.
 - **מסך ניהול** לכל מחלקה (`/admin/<מזהה-מחלקה>`), מוגן בסיסמה נפרדת פר
   מחלקה (משתני סביבה), עם טבלת התורים המאושרים וייצוא ל-CSV.
+- **תמלול הקלטות** (`/admin/transcription`) - העלאת הקלטת שיחה בעברית (גם
+  הקלטות ארוכות של 3-4 שעות) לתמלול אוטומטי עם חלוקה לפי דוברים וניחוש שמות
+  דוברים, וייצוא ל-TXT/SRT/Word. התמלול עצמו רץ על תהליך (worker) נפרד -
+  ראו `transcription_worker/README.md`.
 
 ## דרישות מקדימות
 
@@ -32,9 +36,13 @@ Supabase (בסיס נתונים) + Resend (שליחת מיילים) + Vercel (א
 
 2. יצירת פרויקט Supabase, ואז הרצת הסכימה: פתחו את **SQL Editor** בפרויקט
    ה-Supabase, הדביקו את התוכן של `supabase/schema.sql` והריצו. זה יוצר את
-   הטבלאות `departments` ו-`appointments`, אינדקס למניעת הזמנה כפולה, ונתוני
+   הטבלאות `departments` ו-`appointments`, אינדקס למניעת הזמנה כפולה, נתוני
    דוגמה למחלקות (יש לעדכן שם/כתובת/טלפון/מייל אמיתיים לפני עלייה לאוויר -
-   ראו את רשימת ה-`insert into departments` בקובץ).
+   ראו את רשימת ה-`insert into departments` בקובץ), וגם את טבלת
+   `transcription_jobs` ו-bucket האחסון `recordings` עבור פיצ'ר תמלול
+   ההקלטות. אם תרצו להשתמש בתמלול הקלטות ארוכות, העלו גם את מגבלת גודל
+   הקובץ (Project Settings -> Storage -> Max file size) מעל ל-50MB
+   שברירת המחדל.
 
 3. יצירת קובץ `.env.local` על בסיס `.env.example` ומילוי הערכים:
 
@@ -51,6 +59,11 @@ Supabase (בסיס נתונים) + Resend (שליחת מיילים) + Vercel (א
      הסביבה = מזהה המחלקה באותיות גדולות עם `_` במקום `-`, למשל
      `business-licensing` -> `ADMIN_PASSWORD_BUSINESS_LICENSING`).
    - `NEXT_PUBLIC_APP_URL` - הכתובת שבה האתר רץ (לצורכי קישורים במיילים).
+   - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` - מתוך
+     אותו עמוד Project Settings -> API (המפתח הציבורי, לא ה-service role) -
+     נדרשים למסך תמלול ההקלטות (`/admin/transcription`) כדי להעלות קבצי
+     הקלטה גדולים ישירות ל-Supabase Storage.
+   - `ADMIN_PASSWORD_TRANSCRIPTION` - סיסמת הכניסה למסך תמלול ההקלטות.
 
 4. הרצת שרת הפיתוח:
 
@@ -77,8 +90,9 @@ Supabase (בסיס נתונים) + Resend (שליחת מיילים) + Vercel (א
 ```
 supabase/schema.sql          # טבלאות, אינדקסים, RLS, נתוני דוגמה
 src/lib/                     # לוגיקת שרת: סלוטים, מייל, אימות ניהול, סופאבייס
-src/app/api/                 # API routes: slots, hold, confirm, cancel, admin
-src/app/                     # עמודי הקצה (בית, קביעת תור, ביטול, ניהול)
+src/app/api/                 # API routes: slots, hold, confirm, cancel, admin, transcription
+src/app/                     # עמודי הקצה (בית, קביעת תור, ביטול, ניהול, תמלול)
+transcription_worker/        # תהליך פייתון נפרד לתמלול הקלטות - ראו README שם
 ```
 
 ## הערה לגבי מידע פרטי של תושבים

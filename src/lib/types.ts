@@ -35,3 +35,38 @@ export interface SlotInfo {
   time: string; // "HH:MM"
   available: boolean;
 }
+
+export type TranscriptionJobStatus =
+  | "pending_upload"
+  | "pending"
+  | "processing"
+  | "done"
+  | "failed";
+
+export interface TranscriptSegment {
+  start: number; // seconds
+  end: number; // seconds
+  speaker: string; // e.g. "SPEAKER_00"
+  text: string;
+}
+
+export interface Transcript {
+  segments: TranscriptSegment[];
+  speakers: string[];
+}
+
+export interface TranscriptionJob {
+  id: string;
+  original_filename: string;
+  storage_bucket: string;
+  storage_path: string;
+  status: TranscriptionJobStatus;
+  progress_stage: string | null;
+  progress_percent: number;
+  error_message: string | null;
+  duration_seconds: number | null;
+  transcript: Transcript | null;
+  speaker_names: Record<string, string>;
+  created_at: string;
+  updated_at: string;
+}

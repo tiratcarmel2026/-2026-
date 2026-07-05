@@ -1,0 +1,13 @@
+python-dotenv>=1.0
+requests>=2.31
+
+# ASR
+faster-whisper>=1.0
+
+# Speaker diarization
+pyannote.audio>=3.1
+torch>=2.1
+torchaudio>=2.1
+
+# Speaker-name guessing from transcript context
+anthropic>=0.34

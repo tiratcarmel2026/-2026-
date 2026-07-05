@@ -19,6 +19,12 @@ export default async function AdminIndexPage() {
             {dept.name}
           </Link>
         ))}
+        <Link
+          href="/admin/transcription"
+          className="rounded-lg border border-gray-200 bg-white p-4 hover:border-brand-blue transition"
+        >
+          תמלול הקלטות
+        </Link>
       </div>
     </div>
   );
