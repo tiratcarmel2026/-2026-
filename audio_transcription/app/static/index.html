@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>תמלול הקלטות בעברית</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>תמלול הקלטות בעברית</h1>
+    <p>העלו הקלטת שיחה (גם ארוכה - 3-4 שעות) וקבלו תמלול מלא עם חלוקה לפי דוברים.</p>
+  </header>
+
+  <div class="card">
+    <div id="dropzone" class="dropzone">
+      <input type="file" id="fileInput" accept="audio/*,video/*">
+      <div>גררו לכאן קובץ הקלטה, או לחצו לבחירה</div>
+      <div class="filename" id="filename"></div>
+    </div>
+
+    <button class="btn-primary" id="uploadBtn" disabled>העלאה ותמלול</button>
+
+    <div class="status hidden" id="status">
+      <div class="spinner"></div>
+      <span id="statusText">מעלה...</span>
+    </div>
+    <div class="progress hidden" id="progressBar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="error-box hidden" id="errorBox"></div>
+  </div>
+
+  <div class="card hidden" id="resultCard">
+    <div class="result-header">
+      <h2 class="no-border" id="resultFilename"></h2>
+      <div>
+        <a class="btn-secondary" id="dlTxt" href="#">ייצוא TXT</a>
+        <a class="btn-secondary" id="dlSrt" href="#">ייצוא SRT</a>
+        <a class="btn-secondary" id="dlDocx" href="#">ייצוא Word</a>
+      </div>
+    </div>
+
+    <h2>שמות דוברים</h2>
+    <p class="muted">השמות נוחשו אוטומטית מתוך הצגה עצמית בהקלטה (אם הייתה) - בדקו ותקנו לפי הצורך.</p>
+    <div id="speakersList" class="speakers-list"></div>
+
+    <h2>התמלול</h2>
+    <div id="segmentsList" class="segments-list"></div>
+
+    <div class="disclaimer">
+      <strong>שימו לב:</strong> התמלול והזיהוי האוטומטי של דוברים הם best-effort
+      - ייתכנו טעויות, במיוחד בהקלטות עם רעש רקע, חפיפת דיבור, או ניבים/מבטאים
+      חריגים. מומלץ לעבור על התמלול לפני שימוש רשמי.
+    </div>
+  </div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

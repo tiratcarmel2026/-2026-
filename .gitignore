@@ -39,3 +39,13 @@ transcription_worker/**/__pycache__/
 transcription_worker/.venv/
 transcription_worker/venv/
 
+# audio_transcription (Python)
+audio_transcription/storage/uploads/*
+audio_transcription/storage/outputs/*
+!audio_transcription/storage/uploads/.gitkeep
+!audio_transcription/storage/outputs/.gitkeep
+audio_transcription/__pycache__/
+audio_transcription/**/__pycache__/
+audio_transcription/.venv/
+audio_transcription/venv/
+
