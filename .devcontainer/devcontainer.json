@@ -1,0 +1,14 @@
+{
+  "name": "מערכת הנגשת PDF",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "postCreateCommand": "pip install -r pdf_accessibility/requirements.txt && (cp -n pdf_accessibility/.env.example pdf_accessibility/.env || true)",
+  "forwardPorts": [8000],
+  "portsAttributes": {
+    "8000": {
+      "label": "מערכת הנגשת PDF",
+      "onAutoForward": "openPreview"
+    }
+  }
+}
