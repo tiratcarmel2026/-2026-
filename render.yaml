@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: pdf-accessibility
+    runtime: docker
+    dockerfilePath: ./pdf_accessibility/Dockerfile
+    dockerContext: ./pdf_accessibility
+    plan: free
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ANTHROPIC_MODEL
+        value: claude-sonnet-5
