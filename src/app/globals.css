@@ -6,9 +6,14 @@
   --color-brand-orange: #f47b20;
   --color-brand-green: #3aa935;
   --font-sans: "Varela Round", "Segoe UI", system-ui, sans-serif;
+
+  --color-yizkor-bg: #0a1c3b;
+  --color-yizkor-card: #10254a;
+  --color-yizkor-border: #24406e;
+  --color-yizkor-gold: #cda863;
 }
 
-body {
+.booking-body {
   background-color: #f7f8fa;
   color: #1f2937;
 }
