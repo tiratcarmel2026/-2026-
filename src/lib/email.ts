@@ -78,6 +78,47 @@ export async function sendBookingConfirmationEmails(
   }
 }
 
+const YIZKOR_CONTACT_EMAIL = "elada@tirat-carmel.muni.il";
+
+export type YizkorContactMessage = {
+  name: string;
+  email: string;
+  phone?: string;
+  message: string;
+};
+
+/** Sends a Yizkor page contact-form submission to the municipality contact.
+ * Never throws - the caller decides how to report failure to the user. */
+export async function sendYizkorContactEmail(
+  data: YizkorContactMessage
+): Promise<void> {
+  const client = getResend();
+  const from = process.env.RESEND_FROM_EMAIL;
+
+  if (!client || !from) {
+    throw new Error("EMAIL_NOT_CONFIGURED");
+  }
+
+  await client.emails.send({
+    from,
+    to: YIZKOR_CONTACT_EMAIL,
+    replyTo: data.email,
+    subject: `פנייה חדשה דרך עמוד יזכור - ${data.name}`,
+    html: `
+      <div dir="rtl" style="font-family: Arial, sans-serif;">
+        <h2>פנייה חדשה מעמוד יזכור</h2>
+        <ul>
+          <li><strong>שם:</strong> ${escapeHtml(data.name)}</li>
+          <li><strong>דוא&quot;ל:</strong> ${escapeHtml(data.email)}</li>
+          <li><strong>טלפון:</strong> ${escapeHtml(data.phone ?? "-")}</li>
+        </ul>
+        <p><strong>תוכן הפנייה:</strong></p>
+        <p>${escapeHtml(data.message).replace(/\n/g, "<br>")}</p>
+      </div>
+    `,
+  });
+}
+
 function escapeHtml(value: string): string {
   return value
     .replace(/&/g, "&amp;")

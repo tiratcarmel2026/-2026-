@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import "./globals.css";
+import "../globals.css";
 
 export const metadata: Metadata = {
   title: "קביעת תורים - עיריית טירת כרמל",
@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="he" dir="rtl">
-      <body className="min-h-screen flex flex-col">
+      <body className="booking-body min-h-screen flex flex-col">
         <header className="bg-brand-blue text-white">
           <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
             <Link href="/" className="text-lg font-bold">
