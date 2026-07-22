@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { getSupabaseBrowser } from "@/lib/supabaseBrowser";
 import { CityMap } from "./CityMap";
 import type {
@@ -160,32 +161,53 @@ export function MatzavDisplay({ initial }: { initial: SituationSnapshot }) {
       <header
         className={`px-6 py-4 flex items-center justify-between border-b ${
           status.alert_active
-            ? "bg-red-700 border-red-500 animate-pulse"
-            : "bg-slate-900 border-slate-800"
+            ? "bg-matzav-critical-dim border-matzav-critical"
+            : "bg-matzav-panel border-matzav-border"
         }`}
       >
-        <div>
-          <h1 className="text-2xl font-bold">מצב עירוני - עיריית טירת כרמל</h1>
-          {status.alert_active ? (
-            <p className="text-lg font-semibold mt-1">
-              🚨 התרעת פיקוד העורף פעילה{status.alert_message ? ` - ${status.alert_message}` : ""}
-            </p>
-          ) : (
-            <p className="text-sm text-slate-400 mt-1">אין התרעה פעילה כרגע</p>
-          )}
+        <div className="flex items-center gap-4">
+          <span className="bg-white rounded-lg p-1.5 shrink-0 hidden sm:flex items-center">
+            <Image
+              src="/tirat-carmel-logo-wide.png"
+              alt="עיריית טירת כרמל"
+              width={688}
+              height={268}
+              className="h-9 w-auto"
+              priority
+            />
+          </span>
+          <div>
+            <h1 className="text-2xl font-bold">מצב עירוני — עיריית טירת כרמל</h1>
+            {status.alert_active ? (
+              <p className="text-lg font-semibold mt-1 flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-matzav-critical animate-pulse" />
+                התרעת פיקוד העורף פעילה
+                {status.alert_message ? ` — ${status.alert_message}` : ""}
+              </p>
+            ) : (
+              <p className="text-sm text-matzav-muted mt-1">אין התרעה פעילה כרגע</p>
+            )}
+          </div>
         </div>
-        <div className="text-left">
+        <div className="text-left shrink-0">
           <p className="text-3xl font-mono tabular-nums">
             {now ? now.toLocaleTimeString("he-IL") : "--:--:--"}
           </p>
-          <p className="text-sm text-slate-400">
-            {now ? now.toLocaleDateString("he-IL", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) : ""}
+          <p className="text-sm text-matzav-muted">
+            {now
+              ? now.toLocaleDateString("he-IL", {
+                  weekday: "long",
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })
+              : ""}
           </p>
         </div>
       </header>
 
       {status.headline && (
-        <div className="bg-amber-500/10 border-b border-amber-600/40 text-amber-300 px-6 py-2 text-sm">
+        <div className="bg-brand-orange/10 border-b border-brand-orange/40 text-brand-yellow px-6 py-2 text-sm">
           {status.headline}
         </div>
       )}
@@ -207,25 +229,25 @@ export function MatzavDisplay({ initial }: { initial: SituationSnapshot }) {
 
           <Panel title={`אירועים (${activeIncidents.length})`}>
             {incidents.length === 0 && <EmptyRow text="אין אירועים רשומים" />}
-            <div className="divide-y divide-slate-800">
+            <div className="divide-y divide-matzav-border">
               {incidents.map((incident) => (
                 <div key={incident.id} className="py-3 flex items-start justify-between gap-3">
                   <div>
                     <p className="font-semibold">{incident.title}</p>
                     {incident.address && (
-                      <p className="text-sm text-slate-400">{incident.address}</p>
+                      <p className="text-sm text-matzav-muted">{incident.address}</p>
                     )}
                     {incident.description && (
                       <p className="text-sm text-slate-300 mt-1">{incident.description}</p>
                     )}
                     {(incident.injured_count > 0 || incident.fatalities_count > 0) && (
-                      <p className="text-sm text-amber-300 mt-1">
+                      <p className="text-sm text-brand-yellow mt-1">
                         {incident.fatalities_count > 0 && `הרוגים: ${incident.fatalities_count} `}
                         {incident.injured_count > 0 && `פצועים: ${incident.injured_count}`}
                       </p>
                     )}
                     {incident.needs && (
-                      <p className="text-sm text-sky-300 mt-1">צרכים: {incident.needs}</p>
+                      <p className="text-sm text-brand-teal mt-1">צרכים: {incident.needs}</p>
                     )}
                   </div>
                   <div className="flex flex-col items-end gap-1 shrink-0">
@@ -245,7 +267,10 @@ export function MatzavDisplay({ initial }: { initial: SituationSnapshot }) {
             <Panel title="מצלמות שטח">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {cameras.map((cam) => (
-                  <div key={cam.id} className="rounded-lg overflow-hidden border border-slate-800">
+                  <div
+                    key={cam.id}
+                    className="rounded-lg overflow-hidden border border-matzav-border"
+                  >
                     <div className="aspect-video bg-black">
                       <iframe
                         src={cam.stream_url}
@@ -254,9 +279,9 @@ export function MatzavDisplay({ initial }: { initial: SituationSnapshot }) {
                         title={cam.name}
                       />
                     </div>
-                    <div className="px-3 py-2 text-sm bg-slate-900">
+                    <div className="px-3 py-2 text-sm bg-matzav-panel">
                       <p className="font-medium">{cam.name}</p>
-                      {cam.location && <p className="text-slate-400">{cam.location}</p>}
+                      {cam.location && <p className="text-matzav-muted">{cam.location}</p>}
                     </div>
                   </div>
                 ))}
@@ -268,11 +293,13 @@ export function MatzavDisplay({ initial }: { initial: SituationSnapshot }) {
         <div className="flex flex-col gap-4">
           <Panel title="יומן אירועים">
             {notes.length === 0 && <EmptyRow text="אין עדכונים" />}
-            <div className="divide-y divide-slate-800 max-h-72 overflow-y-auto">
+            <div className="divide-y divide-matzav-border max-h-72 overflow-y-auto">
               {notes.map((note) => (
                 <div key={note.id} className="py-2">
-                  <p className={note.pinned ? "font-semibold text-amber-300" : ""}>{note.body}</p>
-                  <p className="text-xs text-slate-500 mt-0.5">
+                  <p className={note.pinned ? "font-semibold text-brand-yellow" : ""}>
+                    {note.body}
+                  </p>
+                  <p className="text-xs text-matzav-muted-2 mt-0.5">
                     {note.author ? `${note.author} · ` : ""}
                     {new Date(note.created_at).toLocaleTimeString("he-IL")}
                   </p>
@@ -283,12 +310,14 @@ export function MatzavDisplay({ initial }: { initial: SituationSnapshot }) {
 
           <Panel title="צרכים ומשאבים">
             {needs.length === 0 && <EmptyRow text="אין צרכים פתוחים" />}
-            <div className="divide-y divide-slate-800">
+            <div className="divide-y divide-matzav-border">
               {needs.map((need) => (
                 <div key={need.id} className="py-2 flex items-center justify-between gap-2">
                   <div>
                     <p>{need.title}</p>
-                    {need.quantity && <p className="text-xs text-slate-400">{need.quantity}</p>}
+                    {need.quantity && (
+                      <p className="text-xs text-matzav-muted">{need.quantity}</p>
+                    )}
                   </div>
                   <Badge tone={needTone(need.status)}>{NEED_STATUS_LABEL[need.status]}</Badge>
                 </div>
@@ -299,24 +328,24 @@ export function MatzavDisplay({ initial }: { initial: SituationSnapshot }) {
           <Panel title="מספרי טלפון חשובים">
             <div className="grid grid-cols-2 gap-2">
               {contacts.map((c) => (
-                <div key={c.id} className="rounded-lg bg-slate-900 px-3 py-2">
-                  <p className="text-sm text-slate-400">{c.name}</p>
-                  <p className="font-mono text-lg">{c.phone}</p>
+                <div key={c.id} className="rounded-lg bg-matzav-panel px-3 py-2">
+                  <p className="text-sm text-matzav-muted">{c.name}</p>
+                  <p className="font-mono text-lg tabular-nums">{c.phone}</p>
                 </div>
               ))}
             </div>
           </Panel>
 
-          <div className="text-xs text-slate-500 flex items-center justify-between px-1">
+          <div className="text-xs text-matzav-muted-2 flex items-center justify-between px-1">
             <span>
               פיד פיקוד העורף:{" "}
               <span
                 className={
                   status.oref_feed_status === "ok"
-                    ? "text-green-400"
+                    ? "text-brand-lime"
                     : status.oref_feed_status === "error"
-                      ? "text-red-400"
-                      : "text-slate-400"
+                      ? "text-matzav-critical"
+                      : "text-matzav-muted"
                 }
               >
                 {status.oref_feed_status === "ok"
@@ -349,21 +378,21 @@ function StatCard({
 }) {
   const toneClass =
     tone === "critical"
-      ? "text-red-400"
+      ? "text-matzav-critical"
       : tone === "warning"
-        ? "text-amber-300"
-        : "text-green-400";
+        ? "text-brand-yellow"
+        : "text-brand-lime";
   return (
-    <div className="rounded-xl bg-slate-900 border border-slate-800 px-4 py-3">
-      <p className="text-sm text-slate-400">{label}</p>
-      <p className={`text-3xl font-bold tabular-nums ${toneClass}`}>{value}</p>
+    <div className="rounded-xl bg-matzav-panel border border-matzav-border px-4 py-3">
+      <p className="text-sm text-matzav-muted">{label}</p>
+      <p className={`text-3xl font-bold tabular-nums font-mono ${toneClass}`}>{value}</p>
     </div>
   );
 }
 
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-xl bg-slate-900/60 border border-slate-800 px-4 py-3">
+    <div className="rounded-xl bg-matzav-panel/80 border border-matzav-border px-4 py-3">
       <h2 className="font-semibold text-slate-200 mb-2">{title}</h2>
       {children}
     </div>
@@ -371,7 +400,7 @@ function Panel({ title, children }: { title: string; children: React.ReactNode }
 }
 
 function EmptyRow({ text }: { text: string }) {
-  return <p className="text-sm text-slate-500 py-2">{text}</p>;
+  return <p className="text-sm text-matzav-muted-2 py-2">{text}</p>;
 }
 
 function Badge({
@@ -383,10 +412,10 @@ function Badge({
 }) {
   const toneClass =
     tone === "critical"
-      ? "bg-red-500/20 text-red-300"
+      ? "bg-matzav-critical/20 text-red-300"
       : tone === "warning"
-        ? "bg-amber-500/20 text-amber-300"
-        : "bg-green-500/20 text-green-300";
+        ? "bg-brand-orange/20 text-brand-yellow"
+        : "bg-brand-green/20 text-brand-lime";
   return (
     <span className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ${toneClass}`}>
       {children}

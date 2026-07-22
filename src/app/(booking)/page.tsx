@@ -24,7 +24,7 @@ export default async function HomePage() {
             <p className="text-sm text-gray-600">טלפון: {dept.phone}</p>
             <Link
               href={`/book/${dept.id}`}
-              className="mt-3 inline-block text-center rounded-lg bg-brand-orange px-4 py-2 text-white font-medium hover:opacity-90 transition"
+              className="mt-3 inline-block text-center rounded-lg bg-brand-orange-dark px-4 py-2 text-white font-medium hover:opacity-90 transition"
             >
               קביעת תור
             </Link>

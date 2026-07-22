@@ -14,7 +14,7 @@ export default function SituationRoomLayout({
 }>) {
   return (
     <html lang="he" dir="rtl">
-      <body className="min-h-screen bg-slate-950 text-slate-100">{children}</body>
+      <body className="min-h-screen bg-matzav-bg text-slate-100">{children}</body>
     </html>
   );
 }

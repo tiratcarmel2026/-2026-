@@ -46,7 +46,7 @@ export function CancelClient() {
   if (result) {
     return (
       <div className="rounded-xl border border-brand-green bg-green-50 p-6 text-center">
-        <h2 className="text-lg font-bold text-brand-green mb-2">התור בוטל בהצלחה</h2>
+        <h2 className="text-lg font-bold text-brand-green-dark mb-2">התור בוטל בהצלחה</h2>
         <p>
           {result.departmentName} · {formatHebrewDate(result.date)} בשעה {result.time}
         </p>

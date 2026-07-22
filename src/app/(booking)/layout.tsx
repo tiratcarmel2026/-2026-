@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import "../globals.css";
 
@@ -16,9 +17,19 @@ export default function RootLayout({
     <html lang="he" dir="rtl">
       <body className="booking-body min-h-screen flex flex-col">
         <header className="bg-brand-blue text-white">
-          <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-            <Link href="/" className="text-lg font-bold">
-              עיריית טירת כרמל - קביעת תורים
+          <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+            <Link href="/" className="flex items-center gap-3">
+              <span className="bg-white rounded-lg p-1.5 flex items-center">
+                <Image
+                  src="/tirat-carmel-logo-wide.png"
+                  alt="עיריית טירת כרמל"
+                  width={688}
+                  height={268}
+                  className="h-8 w-auto"
+                  priority
+                />
+              </span>
+              <span className="text-lg font-bold hidden sm:inline">קביעת תורים</span>
             </Link>
             <Link
               href="/cancel"

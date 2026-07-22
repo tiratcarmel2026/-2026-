@@ -162,7 +162,7 @@ export function BookingClient({ department, minDate, maxDate }: Props) {
   if (step === "confirmed" && confirmed) {
     return (
       <div className="rounded-xl border border-brand-green bg-green-50 p-6 text-center">
-        <h2 className="text-xl font-bold text-brand-green mb-2">התור נקבע בהצלחה!</h2>
+        <h2 className="text-xl font-bold text-brand-green-dark mb-2">התור נקבע בהצלחה!</h2>
         <p className="mb-1">
           {formatHebrewDate(confirmed.date)} בשעה {confirmed.time}
         </p>
@@ -185,7 +185,7 @@ export function BookingClient({ department, minDate, maxDate }: Props) {
     const seconds = remainingSeconds % 60;
     return (
       <div>
-        <div className="mb-4 rounded-lg bg-brand-orange/10 border border-brand-orange px-4 py-2 text-brand-orange font-medium">
+        <div className="mb-4 rounded-lg bg-brand-orange/10 border border-brand-orange px-4 py-2 text-brand-orange-dark font-medium">
           השעה {hold.time} בתאריך {formatHebrewDate(hold.date)} שמורה עבורכם למשך{" "}
           {minutes}:{seconds.toString().padStart(2, "0")} דקות. אנא השלימו את הפרטים.
         </div>

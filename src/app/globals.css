@@ -1,16 +1,40 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-blue: #1b4d89;
-  --color-brand-blue-dark: #123a68;
-  --color-brand-orange: #f47b20;
-  --color-brand-green: #3aa935;
+  /* Real municipal brand colors, sampled from the official Tirat Carmel
+     logo (public/tirat-carmel-logo-wide.png). The "-dark" variants are
+     darkened just enough to keep white text on a solid fill at >= 4.5:1
+     contrast - the raw brand tones are bright and are for accents,
+     badges and borders, not for text/buttons carrying white text. */
+  --color-brand-blue: #0068ac;
+  --color-brand-blue-dark: #004e80;
+  --color-brand-teal: #00a9cc;
+  --color-brand-teal-dark: #007f99;
+  --color-brand-orange: #f6a31c;
+  --color-brand-orange-dark: #996511;
+  --color-brand-yellow: #ffc220;
+  --color-brand-green: #91b63e;
+  --color-brand-green-dark: #637c2a;
+  --color-brand-lime: #c1d72e;
   --font-sans: "Varela Round", "Segoe UI", system-ui, sans-serif;
 
   --color-yizkor-bg: #0a1c3b;
   --color-yizkor-card: #10254a;
   --color-yizkor-border: #24406e;
   --color-yizkor-gold: #cda863;
+
+  /* Situation-room (/matzav) dark surface - a near-black ground with a
+     slight teal bias so it reads as "this city's" command screen rather
+     than a generic dark-mode grey. Semantic status colors (critical /
+     warning / good) stay distinct from the brand-teal accent; warning and
+     good deliberately reuse the logo's own orange and green ribbons. */
+  --color-matzav-bg: #070f16;
+  --color-matzav-panel: #0e1b24;
+  --color-matzav-border: #1e3340;
+  --color-matzav-muted: #85a0ac;
+  --color-matzav-muted-2: #5f7986;
+  --color-matzav-critical: #e2483d;
+  --color-matzav-critical-dim: #3a1a17;
 }
 
 .booking-body {

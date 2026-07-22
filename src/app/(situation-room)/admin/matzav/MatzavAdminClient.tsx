@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
+import Image from "next/image";
 import type {
   SituationSnapshot,
   Incident,
@@ -89,7 +90,16 @@ export function MatzavAdminClient() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-brand-blue">קונסולת חמ״ל - מצב עירוני</h1>
+        <div className="flex items-center gap-3">
+          <Image
+            src="/tirat-carmel-logo-wide.png"
+            alt="עיריית טירת כרמל"
+            width={688}
+            height={268}
+            className="h-8 w-auto hidden sm:block"
+          />
+          <h1 className="text-2xl font-bold text-brand-blue">קונסולת חמ״ל - מצב עירוני</h1>
+        </div>
         {loggedIn ? (
           <button onClick={handleLogout} className="rounded-lg border px-4 py-2 text-sm">
             התנתקות
