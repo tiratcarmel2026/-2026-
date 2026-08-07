@@ -1,0 +1,76 @@
+# סביבת פיתוח מקומית לאתר וורדפרס של עיריית טירת כרמל.
+# הרצה: cd wordpress-site && cp .env.example .env && docker compose up -d
+# האתר יעלה בכתובת http://localhost:8080 ופאנל הניהול ב-http://localhost:8080/wp-admin
+# phpMyAdmin (ניהול בסיס הנתונים) בכתובת http://localhost:8081
+
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-tirat_carmel}
+      MYSQL_USER: ${MYSQL_USER:-wordpress}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-wordpress}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  wordpress:
+    image: wordpress:php8.2-apache
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${WP_PORT:-8080}:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE:-tirat_carmel}
+      WORDPRESS_DB_USER: ${MYSQL_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:-wordpress}
+      WORDPRESS_DEBUG: ${WORDPRESS_DEBUG:-1}
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_HOME', 'http://localhost:${WP_PORT:-8080}');
+        define('WP_SITEURL', 'http://localhost:${WP_PORT:-8080}');
+    volumes:
+      - wp_data:/var/www/html
+      - ./wp-content/themes/tirat-carmel:/var/www/html/wp-content/themes/tirat-carmel
+      - ./wp-content/plugins/tirat-carmel-core:/var/www/html/wp-content/plugins/tirat-carmel-core
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "${PMA_PORT:-8081}:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+
+  wpcli:
+    image: wordpress:cli-php8.2
+    depends_on:
+      - wordpress
+      - db
+    user: "33:33"
+    volumes:
+      - wp_data:/var/www/html
+      - ./wp-content/themes/tirat-carmel:/var/www/html/wp-content/themes/tirat-carmel
+      - ./wp-content/plugins/tirat-carmel-core:/var/www/html/wp-content/plugins/tirat-carmel-core
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE:-tirat_carmel}
+      WORDPRESS_DB_USER: ${MYSQL_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:-wordpress}
+    entrypoint: ["tail", "-f", "/dev/null"]
+
+volumes:
+  db_data:
+  wp_data:

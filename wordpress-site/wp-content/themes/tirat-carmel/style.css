@@ -1,0 +1,16 @@
+/*
+Theme Name: עיריית טירת כרמל
+Theme URI: https://tirat-carmel.muni.il
+Author: מחלקת מחשוב - עיריית טירת כרמל
+Description: תבנית וורדפרס רשמית לאתר עיריית טירת כרמל. עברית מלאה מימין לשמאל (RTL), נגישה, מותאמת לנייד, עם עמוד בית דינמי, מכרזים, כתבות, אירועים ובוט ניווט.
+Version: 1.0.0
+Requires at least: 6.4
+Requires PHP: 8.0
+Tested up to: 6.6
+License: GPL v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: tirat-carmel
+Tags: municipal, rtl, hebrew, accessible-ready
+
+זהו קובץ הזיהוי של התבנית עבור וורדפרס. כל העיצוב בפועל נמצא ב-assets/css/style.css.
+*/

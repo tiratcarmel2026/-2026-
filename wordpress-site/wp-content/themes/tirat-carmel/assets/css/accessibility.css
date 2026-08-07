@@ -1,0 +1,81 @@
+#tc-accessibility-widget { position: fixed; bottom: 20px; left: 20px; z-index: 9999; font-family: var(--tc-font, sans-serif); direction: rtl; }
+
+#tc-a11y-toggle {
+	width: 54px; height: 54px; border-radius: 50%;
+	background: #023f8a; color: #fff; border: none;
+	display: flex; align-items: center; justify-content: center;
+	box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+#tc-a11y-toggle svg { width: 28px; height: 28px; }
+#tc-a11y-toggle:hover { background: #00a9cc; }
+
+#tc-a11y-panel {
+	position: absolute; bottom: 66px; left: 0;
+	width: 320px; max-width: calc(100vw - 40px);
+	background: #fff; color: #1f2d3d; border-radius: 14px;
+	box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+	max-height: 80vh; overflow-y: auto;
+}
+#tc-a11y-panel[hidden] { display: none; }
+
+.tc-a11y-panel__header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; background: #023f8a; color: #fff; border-radius: 14px 14px 0 0; position: sticky; top: 0; }
+.tc-a11y-panel__header h2 { margin: 0; font-size: 1.05rem; color: #fff; }
+#tc-a11y-close { background: transparent; border: none; color: #fff; font-size: 1.4rem; line-height: 1; padding: 4px 8px; }
+
+.tc-a11y-panel__body { padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+.tc-a11y-group { border: 1px solid #e1e8ef; border-radius: 8px; padding: 10px; }
+.tc-a11y-group__label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.9rem; }
+.tc-a11y-group__buttons { display: flex; gap: 6px; }
+.tc-a11y-group__buttons button { flex: 1; padding: 8px; border: 1px solid #cfd8e2; border-radius: 6px; background: #f5f8fb; font-weight: 700; }
+
+.tc-a11y-toggle-btn {
+	text-align: right; padding: 10px 12px; border: 1px solid #e1e8ef; border-radius: 8px;
+	background: #f5f8fb; font-weight: 600; font-size: 0.92rem;
+}
+.tc-a11y-toggle-btn[aria-pressed="true"] { background: #023f8a; color: #fff; border-color: #023f8a; }
+
+.tc-a11y-reset-btn { margin-top: 6px; padding: 10px; border: 1px solid #e2483c; color: #e2483c; background: #fff; border-radius: 8px; font-weight: 700; }
+.tc-a11y-reset-btn:hover { background: #e2483c; color: #fff; }
+
+.tc-a11y-panel__footer { border-top: 1px solid #e1e8ef; padding: 12px 16px; display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; }
+.tc-a11y-panel__footer a { color: #00a9cc; font-weight: 700; }
+
+#tc-a11y-reading-guide { position: fixed; right: 0; left: 0; height: 34px; background: rgba(245,166,35,0.35); border-top: 2px solid #f6a31c; border-bottom: 2px solid #f6a31c; z-index: 9998; pointer-events: none; }
+#tc-a11y-reading-guide[hidden] { display: none; }
+
+/* ---- Global accessibility states applied to <html> ---- */
+html.tc-a11y-contrast body { background: #000 !important; color: #fff !important; }
+html.tc-a11y-contrast body a { color: #ffe27a !important; }
+html.tc-a11y-contrast body img, html.tc-a11y-contrast body svg { filter: grayscale(100%) contrast(120%); }
+
+html.tc-a11y-dark body { background: #12181f !important; color: #e8edf2 !important; }
+html.tc-a11y-dark .tc-header, html.tc-a11y-dark .tc-services__grid, html.tc-a11y-dark .tc-service-card,
+html.tc-a11y-dark .tc-event-card, html.tc-a11y-dark .tc-list-card { background: #1c2530 !important; color: #e8edf2 !important; }
+
+html.tc-a11y-grayscale body { filter: grayscale(100%); }
+
+html.tc-a11y-underline-links a { text-decoration: underline !important; text-underline-offset: 3px; }
+
+html.tc-a11y-readable-font body, html.tc-a11y-readable-font input, html.tc-a11y-readable-font textarea, html.tc-a11y-readable-font button {
+	font-family: Arial, "Open Sans Hebrew", sans-serif !important;
+	letter-spacing: 0.02em;
+	word-spacing: 0.06em;
+}
+
+html.tc-a11y-big-cursor, html.tc-a11y-big-cursor * { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path d="M4 2l14 8-6 2 4 8-3 1-4-8-4 4z" fill="black" stroke="white" stroke-width="1"/></svg>') 4 4, auto !important; }
+
+html.tc-a11y-stop-animations *, html.tc-a11y-stop-animations *::before, html.tc-a11y-stop-animations *::after {
+	animation-duration: 0.001ms !important;
+	animation-iteration-count: 1 !important;
+	transition-duration: 0.001ms !important;
+	scroll-behavior: auto !important;
+}
+
+html.tc-a11y-highlight-headings h1, html.tc-a11y-highlight-headings h2, html.tc-a11y-highlight-headings h3 {
+	background: #fff6d6; outline: 2px dashed #f6a31c; padding: 4px 8px;
+}
+
+@media (max-width: 480px) {
+	#tc-accessibility-widget { bottom: 12px; left: 12px; }
+	#tc-a11y-panel { bottom: 62px; left: -6px; width: calc(100vw - 24px); }
+}

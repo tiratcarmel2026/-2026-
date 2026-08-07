@@ -1,0 +1,8 @@
+.tc-attachments-table { margin-top: 10px; }
+.tc-attachments-table th { text-align: right; }
+.tc-attachment-row td { vertical-align: middle; padding: 8px 6px; }
+.tc-attachment-url { width: 60%; }
+.tc-service-card-row, .tc-chatbot-intent-row { border: 1px solid #dcdcde; border-radius: 6px; padding: 14px; margin-bottom: 12px; background: #fff; }
+.tc-service-card-row .field, .tc-chatbot-intent-row .field { margin-bottom: 8px; }
+.tc-service-card-row label, .tc-chatbot-intent-row label { display: block; font-weight: 600; margin-bottom: 3px; }
+.tc-repeater-row-handle { cursor: move; opacity: .5; margin-left: 8px; }
