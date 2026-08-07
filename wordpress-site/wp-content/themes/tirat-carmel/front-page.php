@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 get_header();
 
-$hero_image = get_theme_mod( 'tc_hero_image', TC_THEME_URI . '/assets/img/hero-placeholder.svg' );
+$hero_image = get_theme_mod( 'tc_hero_image', TC_THEME_URI . '/assets/img/hero-city.jpg' );
 $hero_title = get_bloginfo( 'name' ) ?: 'טירת כרמל';
 $hero_sub   = get_theme_mod( 'tc_hero_subtitle', 'סביבה טובה בין כרמל לים' );
 ?>

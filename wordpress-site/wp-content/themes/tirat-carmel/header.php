@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="theme-color" content="#0b3a63">
+	<meta name="theme-color" content="#023f8a">
 	<link rel="manifest" href="<?php echo esc_url( home_url( '/manifest.webmanifest' ) ); ?>">
 	<?php wp_head(); ?>
 </head>
@@ -36,9 +36,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php if ( has_custom_logo() ) : ?>
 				<?php the_custom_logo(); ?>
 			<?php else : ?>
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="tc-header__brand-text">
-					<span class="tc-header__brand-title"><?php bloginfo( 'name' ); ?></span>
-					<span class="tc-header__brand-tagline"><?php bloginfo( 'description' ); ?></span>
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
+					<img src="<?php echo esc_url( TC_THEME_URI . '/assets/img/logo-tirat-carmel.png' ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) . ' — ' . get_bloginfo( 'description' ) ); ?>" class="tc-header__brand-logo">
 				</a>
 			<?php endif; ?>
 		</div>

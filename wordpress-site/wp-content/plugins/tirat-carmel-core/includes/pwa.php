@@ -50,7 +50,7 @@ function tc_core_output_manifest() {
 		'lang'             => 'he',
 		'dir'              => 'rtl',
 		'background_color' => '#ffffff',
-		'theme_color'      => '#0b3a63',
+		'theme_color'      => '#023f8a',
 		'icons'            => array_filter( array(
 			$icon_url ? array( 'src' => $icon_url, 'sizes' => '512x512', 'type' => 'image/png', 'purpose' => 'any maskable' ) : null,
 		) ),
