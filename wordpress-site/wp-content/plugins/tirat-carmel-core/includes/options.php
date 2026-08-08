@@ -29,6 +29,8 @@ function tc_core_get_settings() {
 		'emergency_banner_link'    => '',
 		'emergency_banner_link_label' => 'לפרטים נוספים',
 		'cookie_consent_enabled'  => '1',
+		'emergency_page_alert_mode'  => '',
+		'emergency_page_alert_color' => '#e2483c',
 	);
 	$saved = get_option( 'tc_core_settings', array() );
 	return wp_parse_args( $saved, $defaults );

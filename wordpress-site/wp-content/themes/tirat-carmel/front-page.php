@@ -42,40 +42,7 @@ $hero_sub   = get_theme_mod( 'tc_hero_subtitle', 'סביבה טובה בין כ�
 	</div>
 </section>
 
-<section class="tc-updates" aria-label="<?php esc_attr_e( 'עדכונים חשובים', 'tirat-carmel' ); ?>">
-	<div class="tc-container tc-updates__bar">
-		<button type="button" class="tc-updates__nav tc-updates__nav--prev" aria-label="<?php esc_attr_e( 'העדכון הקודם', 'tirat-carmel' ); ?>">‹</button>
-
-		<div class="tc-updates__track">
-			<?php
-			$updates_query = new WP_Query( array(
-				'post_type'      => 'post',
-				'posts_per_page' => 6,
-				'no_found_rows'  => true,
-			) );
-			if ( $updates_query->have_posts() ) {
-				while ( $updates_query->have_posts() ) {
-					$updates_query->the_post();
-					tc_render_update_row( get_the_ID() );
-				}
-				wp_reset_postdata();
-			} else {
-				echo '<p class="tc-empty">' . esc_html__( 'אין עדכונים חדשים כרגע.', 'tirat-carmel' ) . '</p>';
-			}
-			?>
-		</div>
-
-		<button type="button" class="tc-updates__nav tc-updates__nav--next" aria-label="<?php esc_attr_e( 'העדכון הבא', 'tirat-carmel' ); ?>">›</button>
-
-		<div class="tc-updates__label">
-			<span aria-hidden="true"><?php tc_icon( 'updates' ); ?></span>
-			<?php esc_html_e( 'עדכונים חשובים', 'tirat-carmel' ); ?>
-		</div>
-	</div>
-	<div class="tc-container">
-		<a class="tc-link-all" href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">‹ <?php esc_html_e( 'לכל העדכונים', 'tirat-carmel' ); ?></a>
-	</div>
-</section>
+<?php tc_render_updates_ticker(); ?>
 
 <section class="tc-events" aria-label="<?php esc_attr_e( 'אירועים קרובים', 'tirat-carmel' ); ?>">
 	<div class="tc-container">

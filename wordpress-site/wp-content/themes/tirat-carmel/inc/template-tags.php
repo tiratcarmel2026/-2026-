@@ -101,6 +101,63 @@ function tc_render_event_card( $post_id ) {
 }
 
 /**
+ * רולר עדכונים ניתן לשימוש חוזר (עמוד הבית, עמוד חירום וכו').
+ * אם קיימת קטגוריה בשם ה-slug שהועבר ב-$args['category'], מוצגים רק
+ * פוסטים משויכים אליה; אחרת מוצגים העדכונים האחרונים באתר.
+ */
+function tc_render_updates_ticker( $args = array() ) {
+	$args = wp_parse_args( $args, array(
+		'category'        => '',
+		'label'           => __( 'עדכונים חשובים', 'tirat-carmel' ),
+		'link'            => home_url( '/blog/' ),
+		'link_label'      => __( 'לכל העדכונים', 'tirat-carmel' ),
+		'posts_per_page'  => 6,
+	) );
+
+	$query_args = array(
+		'post_type'      => 'post',
+		'posts_per_page' => $args['posts_per_page'],
+		'no_found_rows'  => true,
+	);
+
+	if ( $args['category'] && get_category_by_slug( $args['category'] ) ) {
+		$query_args['category_name'] = $args['category'];
+	}
+	?>
+	<section class="tc-updates" aria-label="<?php echo esc_attr( $args['label'] ); ?>">
+		<div class="tc-container tc-updates__bar">
+			<button type="button" class="tc-updates__nav tc-updates__nav--prev" aria-label="<?php esc_attr_e( 'העדכון הקודם', 'tirat-carmel' ); ?>">‹</button>
+
+			<div class="tc-updates__track">
+				<?php
+				$updates_query = new WP_Query( $query_args );
+				if ( $updates_query->have_posts() ) {
+					while ( $updates_query->have_posts() ) {
+						$updates_query->the_post();
+						tc_render_update_row( get_the_ID() );
+					}
+					wp_reset_postdata();
+				} else {
+					echo '<p class="tc-empty">' . esc_html__( 'אין עדכונים חדשים כרגע.', 'tirat-carmel' ) . '</p>';
+				}
+				?>
+			</div>
+
+			<button type="button" class="tc-updates__nav tc-updates__nav--next" aria-label="<?php esc_attr_e( 'העדכון הבא', 'tirat-carmel' ); ?>">›</button>
+
+			<div class="tc-updates__label">
+				<span aria-hidden="true"><?php tc_icon( 'updates' ); ?></span>
+				<?php echo esc_html( $args['label'] ); ?>
+			</div>
+		</div>
+		<div class="tc-container">
+			<a class="tc-link-all" href="<?php echo esc_url( $args['link'] ); ?>">‹ <?php echo esc_html( $args['link_label'] ); ?></a>
+		</div>
+	</section>
+	<?php
+}
+
+/**
  * שורת "עדכון" ברצועת העדכונים החשובים בעמוד הבית.
  */
 function tc_render_update_row( $post_id ) {

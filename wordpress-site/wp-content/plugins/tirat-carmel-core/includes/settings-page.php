@@ -6,6 +6,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+function tc_core_settings_page_assets( $hook ) {
+	if ( 'toplevel_page_tc-core-settings' !== $hook ) {
+		return;
+	}
+	wp_enqueue_style( 'wp-color-picker' );
+	wp_enqueue_script( 'wp-color-picker' );
+	wp_add_inline_script( 'wp-color-picker', 'jQuery(function($){ $(".tc-color-field").wpColorPicker(); });' );
+}
+add_action( 'admin_enqueue_scripts', 'tc_core_settings_page_assets' );
+
 function tc_core_render_settings_page() {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
@@ -18,7 +28,7 @@ function tc_core_render_settings_page() {
 			'onesignal_app_id', 'onesignal_rest_api_key', 'whatsapp_button_number',
 			'emergency_banner_message', 'emergency_banner_link_label',
 		);
-		$checkbox_fields = array( 'onesignal_auto_notify', 'emergency_banner_enabled', 'cookie_consent_enabled' );
+		$checkbox_fields = array( 'onesignal_auto_notify', 'emergency_banner_enabled', 'cookie_consent_enabled', 'emergency_page_alert_mode' );
 
 		$settings = tc_core_get_settings();
 		foreach ( $text_fields as $field ) {
@@ -33,6 +43,10 @@ function tc_core_render_settings_page() {
 		}
 		foreach ( $checkbox_fields as $field ) {
 			$settings[ $field ] = isset( $_POST[ $field ] ) ? '1' : '';
+		}
+		if ( isset( $_POST['emergency_page_alert_color'] ) ) {
+			$color = sanitize_hex_color( wp_unslash( $_POST['emergency_page_alert_color'] ) );
+			$settings['emergency_page_alert_color'] = $color ? $color : '#e2483c';
 		}
 
 		update_option( 'tc_core_settings', $settings );
@@ -111,7 +125,16 @@ function tc_core_render_settings_page() {
 			</table>
 			<p class="description"><?php esc_html_e( 'ניתן גם להציג כפתור הרשמה ידני בכל עמוד/וידג\'ט באמצעות: [tc_push_subscribe_button]', 'tirat-carmel' ); ?></p>
 
-			<h2 class="title"><?php esc_html_e( 'באנר חירום', 'tirat-carmel' ); ?></h2>
+			<h2 class="title"><?php esc_html_e( 'מצב חירום', 'tirat-carmel' ); ?></h2>
+			<p class="description">
+				<?php
+				printf(
+					/* translators: %s: שם תבנית העמוד */
+					esc_html__( 'עמוד "חירום" עצמו נבנה כעמוד וורדפרס רגיל שבו בוחרים בתבנית "%s" (בתיבת "תבנית עמוד" בעריכת העמוד) - זה מוסיף אוטומטית מפת מקלטים ורולר עדכוני חירום, מעבר לתוכן שתכתבו בעמוד עצמו.', 'tirat-carmel' ),
+					esc_html__( 'עמוד חירום', 'tirat-carmel' )
+				);
+				?>
+			</p>
 			<table class="form-table" role="presentation">
 				<tr>
 					<th><?php esc_html_e( 'הצגת באנר חירום', 'tirat-carmel' ); ?></th>
@@ -120,6 +143,17 @@ function tc_core_render_settings_page() {
 				<tr><th><label for="emergency_banner_message"><?php esc_html_e( 'נוסח ההודעה', 'tirat-carmel' ); ?></label></th><td><input class="large-text" type="text" id="emergency_banner_message" name="emergency_banner_message" value="<?php echo esc_attr( $s['emergency_banner_message'] ); ?>"></td></tr>
 				<tr><th><label for="emergency_banner_link"><?php esc_html_e( 'קישור לפרטים נוספים (אופציונלי)', 'tirat-carmel' ); ?></label></th><td><input class="regular-text" type="url" id="emergency_banner_link" name="emergency_banner_link" value="<?php echo esc_attr( $s['emergency_banner_link'] ); ?>" placeholder="/emergency/"></td></tr>
 				<tr><th><label for="emergency_banner_link_label"><?php esc_html_e( 'טקסט הקישור', 'tirat-carmel' ); ?></label></th><td><input class="regular-text" type="text" id="emergency_banner_link_label" name="emergency_banner_link_label" value="<?php echo esc_attr( $s['emergency_banner_link_label'] ); ?>"></td></tr>
+				<tr>
+					<th><?php esc_html_e( 'צביעת עמוד החירום', 'tirat-carmel' ); ?></th>
+					<td><label><input type="checkbox" name="emergency_page_alert_mode" value="1" <?php checked( $s['emergency_page_alert_mode'], '1' ); ?>> <?php esc_html_e( 'צביעת עמוד החירום בצבע ההתראה (במקום הצבע הרגיל של האתר) - להדגשה חזותית בזמן אירוע', 'tirat-carmel' ); ?></label></td>
+				</tr>
+				<tr>
+					<th><label for="emergency_page_alert_color"><?php esc_html_e( 'צבע ההתראה', 'tirat-carmel' ); ?></label></th>
+					<td>
+						<input type="text" id="emergency_page_alert_color" name="emergency_page_alert_color" value="<?php echo esc_attr( $s['emergency_page_alert_color'] ); ?>" class="tc-color-field" data-default-color="#e2483c">
+						<p class="description"><?php esc_html_e( 'הצבע שישמש לכותרת עמוד החירום ולרכיבים בו כשמצב הצביעה פעיל.', 'tirat-carmel' ); ?></p>
+					</td>
+				</tr>
 			</table>
 
 			<h2 class="title"><?php esc_html_e( 'פרטיות', 'tirat-carmel' ); ?></h2>
