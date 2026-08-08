@@ -10,7 +10,7 @@ function tc_core_get_settings() {
 	$defaults = array(
 		'phone'               => '04-1234567',
 		'email'               => 'info@tirat-carmel.muni.il',
-		'address'             => 'רחוב העירייה 1, טירת כרמל',
+		'address'             => 'רח׳ הרצל 6, טירת כרמל',
 		'call_center_title'   => 'מוקד 106 לשירותך 24/7',
 		'call_center_subtitle'=> 'לפניות, דיווחים ושירות לתושב',
 		'footer_slogan'       => 'טירת כרמל – עיר מתקדמת, איכותית וקהילתית בין כרמל לים.',
@@ -20,6 +20,15 @@ function tc_core_get_settings() {
 		'social_whatsapp'     => '',
 		'contact_page_url'    => '',
 		'accessibility_page_url' => '',
+		'onesignal_app_id'        => '',
+		'onesignal_rest_api_key'  => '',
+		'onesignal_auto_notify'   => '',
+		'whatsapp_button_number'  => '',
+		'emergency_banner_enabled' => '',
+		'emergency_banner_message' => 'הודעת חירום: מידע מעודכן זמין בעמוד החירום ובמוקד 106.',
+		'emergency_banner_link'    => '',
+		'emergency_banner_link_label' => 'לפרטים נוספים',
+		'cookie_consent_enabled'  => '1',
 	);
 	$saved = get_option( 'tc_core_settings', array() );
 	return wp_parse_args( $saved, $defaults );

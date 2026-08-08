@@ -19,6 +19,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <a class="tc-skip-link" href="#tc-main-content"><?php esc_html_e( 'דלג לתוכן הראשי', 'tirat-carmel' ); ?></a>
 
+<?php if ( function_exists( 'tc_render_emergency_banner' ) ) : ?>
+	<?php tc_render_emergency_banner(); ?>
+<?php endif; ?>
+
 <div class="tc-topbar">
 	<div class="tc-container tc-topbar__inner">
 		<a href="tel:106" class="tc-topbar__link"><?php tc_icon( 'phone' ); ?> <?php esc_html_e( 'מוקד 106 - 24/7', 'tirat-carmel' ); ?></a>

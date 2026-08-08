@@ -97,6 +97,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php get_template_part( 'template-parts/chatbot-widget' ); ?>
 <?php endif; ?>
 
+<?php if ( function_exists( 'tc_render_whatsapp_button' ) ) : ?>
+	<?php tc_render_whatsapp_button(); ?>
+<?php endif; ?>
+
+<?php if ( function_exists( 'tc_render_cookie_consent' ) ) : ?>
+	<?php tc_render_cookie_consent(); ?>
+<?php endif; ?>
+
 <?php wp_footer(); ?>
 </body>
 </html>

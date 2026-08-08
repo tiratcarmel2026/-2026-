@@ -32,6 +32,11 @@ require TC_CORE_DIR . 'includes/rest-api.php';
 require TC_CORE_DIR . 'includes/pwa.php';
 require TC_CORE_DIR . 'includes/newsletter.php';
 require TC_CORE_DIR . 'includes/page-options.php';
+require TC_CORE_DIR . 'includes/onesignal.php';
+require TC_CORE_DIR . 'includes/alert-banner.php';
+require TC_CORE_DIR . 'includes/whatsapp-button.php';
+require TC_CORE_DIR . 'includes/cookie-consent.php';
+require TC_CORE_DIR . 'includes/schema.php';
 require TC_CORE_DIR . 'includes/admin-menu.php';
 
 /**

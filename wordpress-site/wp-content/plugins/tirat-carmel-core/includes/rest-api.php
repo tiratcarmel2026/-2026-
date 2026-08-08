@@ -38,6 +38,7 @@ function tc_core_rest_get_service_cards() {
 
 function tc_core_rest_get_site_settings() {
 	$s = tc_core_get_settings();
-	unset( $s['email'] ); // לא לחשוף מייל גולמי ב-API ציבורי ללא צורך.
+	// לא לחשוף מייל גולמי או מפתחות סודיים ב-API ציבורי.
+	unset( $s['email'], $s['onesignal_rest_api_key'] );
 	return rest_ensure_response( $s );
 }
