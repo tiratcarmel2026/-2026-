@@ -47,9 +47,12 @@ function tc_core_render_settings_page() {
 			<?php esc_html_e( 'כאן ניתן לערוך את הפרטים המופיעים בכל האתר: פוטר, פס יצירת קשר, כפתור 106 ורשתות חברתיות - בלי לגעת בקוד.', 'tirat-carmel' ); ?>
 			<?php esc_html_e( 'ניהול תוכן נוסף:', 'tirat-carmel' ); ?>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=tc-service-cards' ) ); ?>"><?php esc_html_e( 'כרטיסי שירות', 'tirat-carmel' ); ?></a> ·
-			<a href="<?php echo esc_url( admin_url( 'admin.php?page=tc-chatbot-intents' ) ); ?>"><?php esc_html_e( 'בוט ניווט', 'tirat-carmel' ); ?></a> ·
+			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=tc_chatbot_intent' ) ); ?>"><?php esc_html_e( 'בוט ניווט', 'tirat-carmel' ); ?></a> ·
 			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=tender' ) ); ?>"><?php esc_html_e( 'מכרזים', 'tirat-carmel' ); ?></a> ·
 			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=tc_event' ) ); ?>"><?php esc_html_e( 'אירועים', 'tirat-carmel' ); ?></a> ·
+			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=department' ) ); ?>"><?php esc_html_e( 'מחלקות ואנשי קשר', 'tirat-carmel' ); ?></a> ·
+			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=protocol' ) ); ?>"><?php esc_html_e( 'פרוטוקולים ושקיפות', 'tirat-carmel' ); ?></a> ·
+			<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=shelter' ) ); ?>"><?php esc_html_e( 'מקלטים ציבוריים', 'tirat-carmel' ); ?></a> ·
 			<a href="<?php echo esc_url( admin_url( 'customize.php' ) ); ?>"><?php esc_html_e( 'לוגו, תמונת רקע וצבעים (Customizer)', 'tirat-carmel' ); ?></a>
 		</p>
 

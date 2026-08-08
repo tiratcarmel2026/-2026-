@@ -1,15 +1,15 @@
 <?php
 /**
- * רכיב "קבצים מצורפים" משותף - לכתבות (post) ולמכרזים (tender).
- * מאפשר לצוות העירייה לצרף PDF / Word / Excel / תמונות מתוך ספריית המדיה של וורדפרס,
- * בלי צורך בעריכת קוד.
+ * רכיב "קבצים מצורפים" משותף - לכתבות (post), מכרזים (tender) ומסמכי שקיפות
+ * (protocol). מאפשר לצוות העירייה לצרף PDF / Word / Excel / תמונות מתוך
+ * ספריית המדיה של וורדפרס, בלי צורך בעריכת קוד.
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 function tc_core_attachments_post_types() {
-	return apply_filters( 'tc_core_attachments_post_types', array( 'post', 'tender' ) );
+	return apply_filters( 'tc_core_attachments_post_types', array( 'post', 'tender', 'protocol' ) );
 }
 
 function tc_core_register_attachments_metabox() {

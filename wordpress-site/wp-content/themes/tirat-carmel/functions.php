@@ -118,15 +118,25 @@ function tc_breadcrumbs() {
 	echo '<nav class="tc-breadcrumbs" aria-label="' . esc_attr__( 'פירורי לחם', 'tirat-carmel' ) . '">';
 	echo '<a href="' . esc_url( home_url( '/' ) ) . '">' . esc_html__( 'בית', 'tirat-carmel' ) . '</a>';
 
-	if ( is_singular( 'tender' ) ) {
-		echo '<span class="sep">›</span><a href="' . esc_url( get_post_type_archive_link( 'tender' ) ) . '">' . esc_html__( 'מכרזים', 'tirat-carmel' ) . '</a>';
-	} elseif ( is_post_type_archive( 'tender' ) ) {
-		echo '<span class="sep">›</span><span>' . esc_html__( 'מכרזים', 'tirat-carmel' ) . '</span>';
-	} elseif ( is_singular( 'tc_event' ) ) {
-		echo '<span class="sep">›</span><a href="' . esc_url( get_post_type_archive_link( 'tc_event' ) ) . '">' . esc_html__( 'אירועים', 'tirat-carmel' ) . '</a>';
-	} elseif ( is_post_type_archive( 'tc_event' ) ) {
-		echo '<span class="sep">›</span><span>' . esc_html__( 'אירועים', 'tirat-carmel' ) . '</span>';
-	} elseif ( is_singular( 'post' ) || is_home() ) {
+	$archive_labels = array(
+		'tender'     => __( 'מכרזים', 'tirat-carmel' ),
+		'tc_event'   => __( 'אירועים', 'tirat-carmel' ),
+		'department' => __( 'מחלקות ואנשי קשר', 'tirat-carmel' ),
+		'protocol'   => __( 'פרוטוקולים ושקיפות', 'tirat-carmel' ),
+	);
+	$matched = false;
+	foreach ( $archive_labels as $post_type => $label ) {
+		if ( is_singular( $post_type ) ) {
+			echo '<span class="sep">›</span><a href="' . esc_url( get_post_type_archive_link( $post_type ) ) . '">' . esc_html( $label ) . '</a>';
+			$matched = true;
+			break;
+		} elseif ( is_post_type_archive( $post_type ) ) {
+			echo '<span class="sep">›</span><span>' . esc_html( $label ) . '</span>';
+			$matched = true;
+			break;
+		}
+	}
+	if ( ! $matched && ( is_singular( 'post' ) || is_home() ) ) {
 		echo '<span class="sep">›</span><a href="' . esc_url( get_post_type_archive_link( 'post' ) ) . '">' . esc_html__( 'כתבות ועדכונים', 'tirat-carmel' ) . '</a>';
 	}
 

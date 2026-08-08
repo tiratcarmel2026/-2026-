@@ -91,10 +91,11 @@ function tc_default_primary_menu() {
 	$items = array(
 		'העיר והעירייה'    => home_url( '/city/' ),
 		'שירותים מקוונים'  => home_url( '/services/' ),
-		'תושב'             => home_url( '/resident/' ),
+		'מחלקות ואנשי קשר' => get_post_type_archive_link( 'department' ) ?: home_url( '/departments/' ),
 		'מכרזים'           => get_post_type_archive_link( 'tender' ) ?: home_url( '/tenders/' ),
 		'כתבות ועדכונים'   => home_url( '/blog/' ),
 		'אירועים'          => get_post_type_archive_link( 'tc_event' ) ?: home_url( '/events/' ),
+		'פרוטוקולים ושקיפות' => get_post_type_archive_link( 'protocol' ) ?: home_url( '/transparency/' ),
 		'יצירת קשר'        => home_url( '/contact/' ),
 	);
 	echo '<ul class="tc-nav__list">';
